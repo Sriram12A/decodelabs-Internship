@@ -1,0 +1,13 @@
+# Virtual Environments
+venv/
+env/
+ENV/
+
+# Python Cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Environment Variables (Keep API keys safe)
+.env
