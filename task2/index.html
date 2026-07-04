@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marketing Suite Pro | CopyGen</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+<style type="text/tailwindcss">
+:root {
+    --color-deep-space-900: #05051a;
+    --color-deep-space-800: #0a0a2a;
+    --color-deep-space-700: #10103a;
+    
+    --color-glow-blue: rgba(56, 189, 248, 0.4);
+    --color-glow-purple: rgba(168, 85, 247, 0.4);
+
+    --primary-blue: #3b82f6;
+    --primary-purple: #8b5cf6;
+    --primary-sky: #38bdf8;
+    
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --glass-border-hover: rgba(255, 255, 255, 0.2);
+    --glass-border-active: rgba(255, 255, 255, 0.3);
+}
+
+body {
+    background: linear-gradient(to bottom right, var(--color-deep-space-900), var(--color-deep-space-800), #000);
+    background-attachment: fixed;
+    color: white;
+    min-height: 100vh;
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+::-moz-selection {
+    background: rgba(168, 85, 247, 0.3);
+}
+
+::selection {
+    background: rgba(168, 85, 247, 0.3);
+}
+
+/* Utilities replaced by Tailwind CSS */
+
+/* Custom components */
+.glass {
+    background-color: var(--glass-bg);
+    backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.3);
+    border-radius: 9999px;
+}
+
+.glass-card {
+    background-color: var(--glass-bg);
+    backdrop-filter: blur(24px);
+    border: 1px solid var(--glass-border-hover);
+    border-radius: 1rem;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+    transition: all 0.5s ease;
+}
+
+.text-glow {
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3), 0 0 20px rgba(168, 85, 247, 0.5);
+}
+
+.bg-clip-text {
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.hover-translate-y:hover {
+    transform: translateY(-8px);
+}
+
+/* Header & Typography */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+}
+
+.logo-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 0.75rem;
+    background: linear-gradient(to bottom right, #60a5fa, #9333ea);
+    box-shadow: 0 0 15px rgba(168, 85, 247, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    font-weight: 700;
+    transition: all 0.3s ease;
+}
+
+.logo-container:hover .logo-icon {
+    box-shadow: 0 0 25px rgba(56, 189, 248, 0.8);
+}
+
+.logo-text {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    background-image: linear-gradient(to right, #bfdbfe, #e9d5ff);
+}
+
+.nav-links {
+    display: none;
+    padding: 0.75rem 1.5rem;
+    gap: 1.5rem;
+}
+@media (min-width: 768px) {
+    .nav-links { display: flex; }
+}
+
+.nav-link {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+.nav-link:hover {
+    color: white;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3), 0 0 20px rgba(168, 85, 247, 0.5);
+}
+
+.hero-section {
+    margin-top: 5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.hero-title {
+    font-size: 3rem;
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    background-image: linear-gradient(to bottom right, #fff, #dbeafe, #d8b4fe);
+    padding-bottom: 1rem;
+    filter: drop-shadow(0 10px 8px rgba(0, 0, 0, 0.04)) drop-shadow(0 4px 3px rgba(0, 0, 0, 0.1));
+    margin: 0;
+}
+@media (min-width: 768px) {
+    .hero-title { font-size: 4.5rem; }
+}
+
+.hero-subtitle {
+    margin-top: 1.5rem;
+    font-size: 1.125rem;
+    color: rgba(219, 234, 254, 0.7);
+    max-width: 42rem;
+    font-weight: 300;
+    line-height: 1.625;
+}
+@media (min-width: 768px) {
+    .hero-subtitle { font-size: 1.25rem; }
+}
+
+.label-text {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #bfdbfe;
+}
+
+/* Inputs and Buttons */
+.textarea {
+    width: 100%;
+    height: 8rem;
+    background-color: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0.75rem;
+    padding: 1rem;
+    color: white;
+    resize: none;
+    box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+    font-family: inherit;
+}
+.textarea::placeholder {
+    color: rgba(255, 255, 255, 0.3);
+}
+.textarea:focus {
+    outline: none;
+    border-color: transparent;
+    box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.5);
+}
+
+.option-btn {
+    padding: 0.625rem 1.25rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+}
+.option-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.3);
+    color: white;
+}
+.option-btn.active-tool {
+    background: linear-gradient(to right, rgba(59, 130, 246, 0.2), rgba(147, 51, 234, 0.2));
+    border-color: rgba(192, 132, 252, 0.5);
+    box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
+    color: white;
+}
+.option-btn.active-tone {
+    border-radius: 0.75rem;
+    background: linear-gradient(to bottom right, rgba(59, 130, 246, 0.3), rgba(147, 51, 234, 0.3));
+    border-color: rgba(96, 165, 250, 0.5);
+    box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+    color: white;
+}
+.tone-btn {
+    border-radius: 0.75rem;
+    padding: 0.75rem 1rem;
+    width: 100%;
+}
+
+.generate-btn {
+    padding: 1.25rem 0;
+    border-radius: 1rem;
+    font-weight: 700;
+    font-size: 1.125rem;
+    letter-spacing: 0.025em;
+    transition: all 0.5s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    cursor: pointer;
+    border: none;
+    color: white;
+    background: linear-gradient(to right, #3b82f6, #9333ea);
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.6);
+}
+.generate-btn:hover:not(:disabled) {
+    box-shadow: 0 0 40px rgba(56, 189, 248, 0.8);
+    transform: translateY(-12px);
+}
+.generate-btn:disabled {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.3);
+    cursor: not-allowed;
+    box-shadow: none;
+}
+.spinner { display: flex; align-items: center; }
+.animate-spin { animation: spin 1s linear infinite; }
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+/* Output Area */
+.output-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    background-image: linear-gradient(to right, #93c5fd, #d8b4fe);
+    margin: 0;
+}
+.badge {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.375rem;
+    border: 1px solid transparent;
+}
+.bg-blue-badge { background-color: rgba(59, 130, 246, 0.2); border-color: rgba(59, 130, 246, 0.3); color: #93c5fd; }
+.bg-purple-badge { background-color: rgba(168, 85, 247, 0.2); border-color: rgba(168, 85, 247, 0.3); color: #d8b4fe; }
+
+.output-content-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    flex: 1;
+    overflow: hidden;
+}
+
+.visual-container {
+    display: flex;
+    flex-direction: column;
+}
+.object-cover { object-fit: cover; }
+.aspect-square { aspect-ratio: 1 / 1; }
+.bg-black-20 { background-color: rgba(0,0,0,0.2); }
+.border-white-10 { border-color: rgba(255,255,255,0.1); }
+.shadow-lg { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); }
+
+.copy-container {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+.copy-text {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 0.5rem;
+    color: rgba(255, 255, 255, 0.9);
+    white-space: pre-wrap;
+    line-height: 1.625;
+    font-size: 0.875rem;
+    font-weight: 300;
+}
+@media (min-width: 768px) {
+    .copy-text { font-size: 1rem; }
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+.action-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    border-radius: 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.8);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+}
+.action-btn.glass {
+    border: 1px solid var(--glass-border);
+}
+.action-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+.hover-shadow:hover {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+.primary-btn {
+    background: linear-gradient(to right, rgba(37, 99, 235, 0.5), rgba(147, 51, 234, 0.5));
+    color: white;
+}
+.primary-btn:hover {
+    background: linear-gradient(to right, rgba(59, 130, 246, 0.6), rgba(168, 85, 247, 0.6));
+}
+.hover-shadow-glow:hover {
+    box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
+}
+
+.transition-output {
+    transition: all 1s ease-out;
+}
+.opacity-0 { opacity: 0; }
+.opacity-100 { opacity: 1; }
+.translate-y-10 { transform: translateY(2.5rem); }
+.translate-y-0 { transform: translateY(0); }
+.pointer-events-none { pointer-events: none; }
+
+.empty-state {
+    border: 1px dashed rgba(255, 255, 255, 0.2);
+    opacity: 0.5;
+}
+.empty-icon {
+    width: 5rem;
+    height: 5rem;
+    border-radius: 9999px;
+    background-color: rgba(255, 255, 255, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.875rem;
+}
+.shadow-glow {
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.05);
+}
+
+/* Animations */
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+.animate-float { animation: float 6s ease-in-out infinite; }
+.animate-float-delayed { animation: float 6s ease-in-out infinite 1s; }
+.animate-float-slow { animation: float 8s ease-in-out infinite; }
+.animate-float-slow-delayed { animation: float 7s ease-in-out infinite 0.5s; }
+
+.fixed-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+.bg-element {
+    position: absolute;
+    border-radius: 9999px;
+    opacity: 0.2;
+    filter: blur(48px);
+    pointer-events: none;
+}
+
+    </style>
+    <!-- Google Fonts for modern typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="bg-gradient text-white min-h-screen font-sans overflow-hidden overflow-y-auto selection-purple">
+
+    <!-- Dynamic Background Elements -->
+    <div class="fixed-bg" id="bg-elements-container"></div>
+
+    <div class="container main-container">
+        <!-- Header -->
+        <header class="header animate-float-slow">
+            <div class="logo-container group">
+                <div class="logo-icon group-hover-shadow">✨</div>
+                <h1 class="logo-text text-glow bg-clip-text">CopyGen</h1>
+            </div>
+            <nav class="nav-links glass">
+                <a href="#" class="nav-link">Dashboard</a>
+                <a href="#" class="nav-link">History</a>
+                <a href="#" class="nav-link">Settings</a>
+            </nav>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="hero-section text-center">
+            <h2 class="hero-title bg-clip-text animate-float drop-shadow-lg">
+                Elevate Your Copy.
+            </h2>
+            <p class="hero-subtitle animate-float-delayed">
+                Defy gravity with your marketing. Instantly generate weightless, high-converting copy that adapts perfectly to any marketing tool and tone.
+            </p>
+        </section>
+
+        <!-- Dashboard Interface (Centered) -->
+        <main class="dashboard-centered mt-16 pb-16">
+            
+            <!-- Controls Area -->
+            <div class="controls-area space-y-8 animate-float-slow-delayed mx-auto" style="max-width: 800px;">
+                
+                <!-- Product / Service Input -->
+                <div class="glass-card p-8 group hover-translate-y">
+                    <label class="block uppercase tracking-widest label-text mb-3">
+                        Product / Service
+                    </label>
+                    <textarea
+                        id="productInfo"
+                        class="textarea"
+                        placeholder="What are you promoting today? e.g. A revolutionary new smart coffee mug..."
+                    ></textarea>
+                </div>
+
+                <!-- Target Tool Selection -->
+                <div class="glass-card p-8 group hover-translate-y">
+                    <label class="block uppercase tracking-widest label-text mb-4">
+                        Target Tool
+                    </label>
+                    <div class="flex-wrap gap-3" id="tool-container">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- Tone of Voice Selection -->
+                <div class="glass-card p-8 group hover-translate-y">
+                    <label class="block uppercase tracking-widest label-text mb-4">
+                        Tone of Voice
+                    </label>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3" id="tone-container">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- Generate Button -->
+                <button
+                    id="generateBtn"
+                    class="generate-btn w-full"
+                    disabled
+                >
+                    <span id="btn-text">Generate Output 🚀</span>
+                </button>
+            </div>
+        </main>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+</html>
