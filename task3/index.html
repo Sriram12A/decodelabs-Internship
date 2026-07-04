@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multimodal Image Generation Studio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #6366f1;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-gray-950 text-white min-h-screen font-sans selection:bg-indigo-500 selection:text-white flex items-center justify-center">
+    <div class="container mx-auto px-4 py-12 max-w-3xl">
+        <header class="mb-12 text-center">
+            <h1 class="text-5xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 mb-4 tracking-tight">Multimodal Image Generation Studio</h1>
+            <p class="text-gray-400 text-lg max-w-2xl mx-auto">Translate natural language descriptions into high-quality digital artwork.</p>
+        </header>
+
+        <!-- Security Gates Warning -->
+        <div id="alertContainer" class="hidden mb-6 p-4 rounded-xl bg-orange-950/50 border border-orange-500/30 text-orange-200 flex items-start gap-4 backdrop-blur-sm transition-all shadow-xl">
+            <svg class="w-6 h-6 text-orange-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+            <div>
+                <h4 class="font-bold text-orange-300">Content Policy Warning</h4>
+                <p id="alertMessage" class="text-sm mt-1 text-orange-200/80"></p>
+            </div>
+        </div>
+        
+        <!-- Error Alert -->
+        <div id="errorContainer" class="hidden mb-6 p-4 rounded-xl bg-red-950/50 border border-red-500/30 text-red-200 flex items-start gap-4 backdrop-blur-sm transition-all shadow-xl">
+            <svg class="w-6 h-6 text-red-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <div>
+                <h4 class="font-bold text-red-300">System Error</h4>
+                <p id="errorMessage" class="text-sm mt-1 text-red-200/80"></p>
+            </div>
+        </div>
+
+        <div class="bg-gray-900/50 backdrop-blur-sm rounded-2xl p-8 shadow-2xl border border-gray-800">
+            <form id="generationForm">
+                <div class="mb-6">
+                    <label class="block text-sm font-semibold mb-2 text-gray-300">Prompt</label>
+                    <textarea id="prompt" rows="4" class="w-full bg-gray-950 border border-gray-800 rounded-xl p-4 text-white placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-300 resize-none shadow-inner" placeholder="A futuristic cyberpunk city at sunset, neon lights, highly detailed, 8k..." required></textarea>
+                </div>
+
+                <div class="mb-6">
+                    <label class="block text-sm font-semibold mb-2 text-gray-300">Negative Prompt (Optional)</label>
+                    <textarea id="negative_prompt" rows="2" class="w-full bg-gray-950 border border-gray-800 rounded-xl p-4 text-white placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-300 resize-none shadow-inner" placeholder="blurry, low quality, distorted, watermark..."></textarea>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                    <div>
+                        <label class="block text-sm font-semibold mb-2 text-gray-300">Aspect Ratio</label>
+                        <select id="aspect_ratio" class="w-full bg-gray-950 border border-gray-800 rounded-xl p-4 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-300 appearance-none shadow-inner">
+                            <option value="16:9 Landscape">16:9 Landscape</option>
+                            <option value="1:1 Square">1:1 Square</option>
+                            <option value="9:16 Vertical">9:16 Vertical</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold mb-2 text-gray-300">Generation Count</label>
+                        <input type="number" id="generation_count" min="1" max="4" value="1" class="w-full bg-gray-950 border border-gray-800 rounded-xl p-4 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-300 shadow-inner">
+                    </div>
+                </div>
+
+                <button type="submit" id="generateBtn" class="w-full bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 hover:from-indigo-500 hover:via-purple-500 hover:to-pink-500 text-white font-bold py-4 px-6 rounded-xl shadow-[0_0_15px_rgba(99,102,241,0.5)] transform transition-all duration-300 hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-indigo-500 flex justify-center items-center gap-3 active:scale-95 text-lg tracking-wide">
+                    <span>Generate Artwork</span>
+                    <div id="loader" class="loader hidden" style="width: 22px; height: 22px; border-width: 3px;"></div>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('generationForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const btn = document.getElementById('generateBtn');
+            const loader = document.getElementById('loader');
+            const btnText = btn.querySelector('span');
+            const alertContainer = document.getElementById('alertContainer');
+            const errorContainer = document.getElementById('errorContainer');
+            
+            // Hide previous alerts
+            alertContainer.classList.add('hidden');
+            errorContainer.classList.add('hidden');
+            
+            // Set loading state
+            btn.disabled = true;
+            btnText.textContent = 'Synthesizing Data (this may take up to 60s)...';
+            loader.classList.remove('hidden');
+            btn.classList.add('opacity-75', 'cursor-not-allowed');
+            btn.classList.remove('hover:-translate-y-1');
+            
+            // Gather inputs
+            const payload = {
+                prompt: document.getElementById('prompt').value,
+                negative_prompt: document.getElementById('negative_prompt').value,
+                aspect_ratio: document.getElementById('aspect_ratio').value,
+                generation_count: parseInt(document.getElementById('generation_count').value)
+            };
+            
+            try {
+                const response = await fetch('/api/generate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    if (data.type === 'safety_warning') {
+                        // Graceful frontend warning
+                        document.getElementById('alertMessage').textContent = data.error;
+                        alertContainer.classList.remove('hidden');
+                    } 
+                    
+                    // Proceed to output if any images were generated (even if warning triggered after partial gen)
+                    if (data.images && data.images.length > 0) {
+                        // Store the result payload in sessionStorage
+                        sessionStorage.setItem('generationResult', JSON.stringify({
+                            images: data.images,
+                            aspect_ratio: payload.aspect_ratio
+                        }));
+                        // Navigate to the output page
+                        window.location.href = '/output';
+                    }
+                } else {
+                    document.getElementById('errorMessage').textContent = data.error || 'An unexpected error occurred processing your request.';
+                    errorContainer.classList.remove('hidden');
+                }
+            } catch (error) {
+                document.getElementById('errorMessage').textContent = 'Network or connection error. Ensure the backend is running.';
+                errorContainer.classList.remove('hidden');
+            } finally {
+                // Restore state
+                btn.disabled = false;
+                btnText.textContent = 'Generate Artwork';
+                loader.classList.add('hidden');
+                btn.classList.remove('opacity-75', 'cursor-not-allowed');
+                btn.classList.add('hover:-translate-y-1');
+            }
+        });
+    </script>
+</body>
+</html>
